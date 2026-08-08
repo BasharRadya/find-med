@@ -30,3 +30,6 @@ html{font-size:16px;-webkit-text-size-adjust:100%}body,button,input,select{font-
 /* Useful context inside each clickable clinic row */
 .clinic-row-main{gap:4px}.clinic-row-main .clinic-row-field{color:var(--green);font-size:.8rem;font-weight:700}.clinic-row-main .clinic-row-focus{max-width:680px;color:var(--muted);font-size:.76rem;line-height:1.45}.clinic-row-focus b{color:#4e6862;font-weight:700}
 @media(max-width:600px){.clinic-row{padding-block:16px}.clinic-row-main .clinic-row-field{font-size:.76rem}.clinic-row-main .clinic-row-focus{font-size:.72rem;line-height:1.5}.row-arrow{align-self:center}}
+
+/* Phone profile stays a floating dialog so the search page remains visible */
+@media(max-width:600px){.profile-modal{padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));place-items:center}.profile-panel{width:100%;min-height:0;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));border:1px solid rgba(255,255,255,.72);border-radius:22px;box-shadow:0 24px 70px rgba(2,27,22,.42)}.profile-close{top:max(26px,calc(env(safe-area-inset-top) + 10px));left:26px}.modal-hero{padding:24px 17px 22px}.profile-panel #profile-modal-content{padding-bottom:0}}
