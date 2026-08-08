@@ -18,6 +18,9 @@ const careHierarchy = {
   'Rehabilitation & Bodywork': [
     { id:'physiotherapy-rehabilitation', label:{he:'פיזיותרפיה ושיקום',ar:'العلاج الطبيعي والتأهيل',en:'Physiotherapy and rehabilitation'} },
     { id:'massage-bodywork', label:{he:'עיסוי וטיפולי מגע',ar:'التدليك والعلاج باللمس',en:'Massage and bodywork'} }
+  ],
+  'Veterinary Medicine': [
+    { id:'general-veterinary-care', label:{he:'רפואה וטרינרית כללית',ar:'الطب البيطري العام',en:'General veterinary medicine'} }
   ]
 };
 
@@ -33,6 +36,18 @@ ui.en.fieldGeneral='Medicine';
 ui.he.fieldRehab='פיזיותרפיה וטיפולי מגע';
 ui.ar.fieldRehab='العلاج الطبيعي والعلاج باللمس';
 ui.en.fieldRehab='Physiotherapy & bodywork';
+ui.he.fieldVeterinary='רפואה וטרינרית';
+ui.ar.fieldVeterinary='الطب البيطري';
+ui.en.fieldVeterinary='Veterinary medicine';
+ui.he.founderLabel='מייסד FindMed';
+ui.ar.founderLabel='مؤسس FindMed';
+ui.en.founderLabel='FindMed Founder';
+ui.he.founderRole='מהנדס תוכנה';
+ui.ar.founderRole='مهندس برمجيات';
+ui.en.founderRole='Software Engineer';
+ui.he.contactLabel='יצירת קשר';
+ui.ar.contactLabel='للتواصل';
+ui.en.contactLabel='Contact';
 ui.he.finderTitle='מצאו רופא או מרפאה';
 ui.ar.finderTitle='ابحث عن طبيب أو عيادة';
 ui.en.finderTitle='Find a doctor or clinic';
