@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Find trusted doctors and dentists near you." />
+  <title>FindMed — הרפואה הנכונה, קרוב לבית</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="languages.css" />
+  <link rel="stylesheet" href="directory.css" />
+  <link rel="stylesheet" href="responsive.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="FindMed home">
+      <span class="brand-mark"><span></span></span>
+      <span>find<span>med</span></span>
+    </a>
+    <div class="header-actions">
+      <div class="language-switcher" aria-label="בחירת שפה"><button data-lang="he" class="active">עב</button><button data-lang="ar">عر</button><button data-lang="en">EN</button></div>
+    </div>
+    <button class="menu-button" aria-label="Open menu">☰</button>
+  </header>
+
+  <aside class="care-finder" aria-label="בחירת טיפול">
+    <div class="finder-heading"><span>FindMed</span><strong data-i18n="finderTitle">מצאו רופא בשלושה צעדים</strong></div>
+    <div class="finder-step">
+      <span class="step-number">1</span><label data-i18n="cityLabel">בחרו עיר</label>
+      <div class="finder-options city-options">
+        <button class="city-option active" data-city="tira"><b>טירה</b><small>Tira</small></button>
+        <button class="city-option" data-city="tayibe"><b>טייבה</b><small>Tayibe</small></button>
+      </div>
+    </div>
+    <div class="finder-step">
+      <span class="step-number">2</span><label data-i18n="fieldLabel">בחרו תחום</label>
+      <div class="finder-options field-options">
+        <button class="field-option active" data-field="Dentistry"><span>✦</span><b data-i18n="fieldDental">רפואת שיניים</b></button>
+        <button class="field-option" data-field="General Medicine"><span>+</span><b data-i18n="fieldGeneral">רפואה</b></button>
+      </div>
+    </div>
+    <div class="finder-step branch-step">
+      <span class="step-number">3</span><label data-i18n="branchLabel">בחרו התמחות</label>
+      <div class="branch-options" id="branch-options"></div>
+    </div>
+    <div class="finder-step subcategory-step" hidden>
+      <span class="step-number">4</span><label data-i18n="subcategoryLabel">בחרו תת־קטגוריה</label>
+      <div class="subcategory-options" id="subcategory-options"></div>
+    </div>
+  </aside>
+  <main>
+    <section class="clinic-directory" id="results">
+      <div class="results-heading">
+        <div><span class="kicker" data-i18n="resultsKicker">מרפאות ורופאים</span><p data-i18n="resultsHelp">לחצו על שורה כדי לראות את כל פרטי המרפאה.</p></div>
+        <span class="result-count" id="result-count">1</span>
+      </div>
+      <div class="clinic-list" id="clinic-list"></div>
+    </section>
+  </main>
+  <div class="profile-modal" id="profile-modal" hidden role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+    <button class="profile-backdrop" data-close-profile aria-label="Close profile"></button>
+    <section class="profile-panel">
+      <button class="profile-close" data-close-profile aria-label="Close profile">×</button>
+      <div id="profile-modal-content"></div>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
