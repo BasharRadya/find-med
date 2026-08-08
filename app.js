@@ -18,7 +18,6 @@ const careHierarchy = {
 const doctors = [
   {
     id:1,
-    slug:'dr-karam-samara-tira',
     initials:'KS',
     real:true,
     sampleProfile:true,
@@ -70,7 +69,7 @@ const doctors = [
     ],
     hoursVerified:false,
     overview:{he:'מרפאת שיניים קהילתית בטירה המציעה טיפול אישי למבוגרים ולמשפחות, עם דגש על הסבר ברור, תכנון טיפול מסודר ומעקב לאורך זמן.',ar:'عيادة أسنان مجتمعية في الطيرة تقدم رعاية شخصية للبالغين والعائلات، مع التركيز على الشرح الواضح وخطة علاج منظمة والمتابعة.',en:'A community dental clinic in Tira offering personal care for adults and families, with an emphasis on clear explanations, structured treatment planning, and follow-up.'},
-    website:null,
+    website:'https://www.d.co.il/80291692/46230/',
     bookingUrl:null,
     name:{he:'ד״ר כרם סמארה',ar:'د. كرم سمارة',en:'Dr. Karam Samara'},
     detail:{he:'רפואת שיניים כללית',ar:'طب أسنان عام',en:'General dentistry'},
@@ -108,12 +107,6 @@ const modalCopy={
   ar:{close:'إغلاق',verified:'معلومات موثقة',public:'ملف تجريبي',sample:'ملف تجريبي',hoursNote:'الساعات من مصدر عام ولم يتم التحقق منها مع العيادة',contact:'تواصل',location:'موقع العيادة',missingTitle:'محتوى توضيحي فقط',missingBody:'النبذة والدراسة والخدمات واللغات والتأمين وإمكانية الوصول مختلقة لأغراض التصميم وليست معلومات موثقة عن د. كرم سمارة.',sampleTitle:'محتوى توضيحي فقط',sampleBody:'النبذة والدراسة والخدمات واللغات والتأمين وإمكانية الوصول مختلقة لأغراض التصميم وليست معلومات موثقة عن د. كرم سمارة.',noWebsite:'لم يُنشر موقع رسمي'},
   en:{close:'Close',verified:'Verified information',public:'Sample profile',sample:'Sample profile',hoursNote:'Hours are from a public source and have not been verified with the clinic',contact:'Contact',location:'Clinic location',missingTitle:'Demonstration content only',missingBody:'The overview, education, services, languages, insurance, and accessibility were invented for design purposes and are not verified information about Dr. Karam Samara.',sampleTitle:'Demonstration content only',sampleBody:'The overview, education, services, languages, insurance, and accessibility were invented for design purposes and are not verified information about Dr. Karam Samara.',noWebsite:'No official website published'}
 };
-modalCopy.he.profileLink='העתקת קישור';
-modalCopy.ar.profileLink='نسخ الرابط';
-modalCopy.en.profileLink='Copy link';
-modalCopy.he.linkCopied='הקישור הועתק';
-modalCopy.ar.linkCopied='تم نسخ الرابط';
-modalCopy.en.linkCopied='Link copied';
 const state = { city:'tira', field:'Dentistry', branch:'general-dentistry', subcategory:null, language:localStorage.getItem('findmed-language') || 'he' };
 const branchBox = document.querySelector('#branch-options');
 const subcategoryBox = document.querySelector('#subcategory-options');
@@ -161,22 +154,13 @@ function renderClinics(){
   });
 }
 
-function clinicUrl(doctor){return `${location.origin}${location.pathname}${location.search}#clinic/${encodeURIComponent(doctor.slug)}`;}
-
-function openProfile(doctor,{updateUrl=true}={}){
-  if(updateUrl&&location.hash!==`#clinic/${encodeURIComponent(doctor.slug)}`)history.pushState({clinic:doctor.slug},'',clinicUrl(doctor));
+function openProfile(doctor){
   const copy=ui[state.language];
   const profile=profileCopy[state.language];
   const modal=modalCopy[state.language];
   const chips=items=>items?.length?`<div class="profile-tags">${items.map(item=>`<span>${label(item)}</span>`).join('')}</div>`:`<p class="section-empty">${profile.missing}</p>`;
   const schedule=doctor.openingHours?.map(item=>`<div class="hours-row"><span>${label(item.day)}</span><strong class="${label(item.hours)==='סגור'||label(item.hours)==='مغلق'||label(item.hours)==='Closed'?'closed':''}">${label(item.hours)}</strong></div>`).join('')||`<p class="section-empty">${profile.missing}</p>`;
   profileModalContent.innerHTML=`<header class="modal-hero"><div class="modal-avatar">${doctor.initials}</div><div class="modal-identity"><span>${doctor.real?modal.public:modal.verified}</span><h2 id="profile-modal-title">${label(doctor.name)}</h2><p>${label(doctor.detail)}</p><small>⌖ ${label(doctor.address)}</small></div><div class="modal-actions">${doctor.phone?`<a class="action-primary" href="tel:${doctor.phone.replaceAll('-','')}">☎ ${copy.call}</a>`:''}${doctor.maps?`<a href="${doctor.maps}" target="_blank" rel="noopener">⌖ ${copy.navigate}</a>`:''}${doctor.website?`<a href="${doctor.website}" target="_blank" rel="noopener">↗ ${profile.website}</a>`:''}</div></header><div class="modal-body"><main class="profile-main-column"><section class="profile-details-card"><div class="profile-detail-row"><div class="section-icon">◌</div><div><h3>${profile.overview}</h3>${doctor.overview?`<p>${label(doctor.overview)}</p>`:`<p class="section-empty">${profile.missing}</p>`}</div></div><div class="profile-detail-row"><div class="section-icon">◇</div><div><h3>${profile.education}</h3>${chips(doctor.education)}</div></div><div class="profile-detail-row"><div class="section-icon">✓</div><div><h3>${profile.credentials}</h3>${chips(doctor.credentials)}</div></div></section><section class="modern-section service-section"><div class="section-icon">+</div><div><h3>${profile.services}</h3>${chips(doctor.services)}</div></section></main><aside class="profile-side-column"><section class="side-card hours-card"><div class="side-card-title"><div><span>◷</span><h3>${profile.hours}</h3></div>${doctor.hoursVerified?'':`<small>${modal.public}</small>`}</div><div class="weekly-hours">${schedule}</div>${doctor.hoursVerified?'':`<p class="hours-note">${modal.hoursNote}</p>`}</section><section class="side-card"><h3>${modal.contact}</h3>${doctor.phone?`<a class="contact-line" href="tel:${doctor.phone.replaceAll('-','')}"><span>☎</span><div><small>${copy.call}</small><strong>${doctor.phone}</strong></div></a>`:''}<a class="contact-line" href="${doctor.maps}" target="_blank" rel="noopener"><span>⌖</span><div><small>${modal.location}</small><strong>${label(doctor.address)}</strong></div></a>${doctor.website?`<a class="contact-line" href="${doctor.website}" target="_blank" rel="noopener"><span>↗</span><div><small>${profile.website}</small><strong>${doctor.website}</strong></div></a>`:`<div class="website-empty">${modal.noWebsite}</div>`}</section></aside></div>`;
-  profileModalContent.querySelector('.modal-actions').insertAdjacentHTML('beforeend',`<button class="copy-profile-link" type="button">⌘ ${modal.profileLink}</button>`);
-  const copyLinkButton=profileModalContent.querySelector('.copy-profile-link');
-  copyLinkButton.addEventListener('click',async()=>{
-    try{await navigator.clipboard.writeText(clinicUrl(doctor));copyLinkButton.textContent=`✓ ${modal.linkCopied}`;setTimeout(()=>copyLinkButton.textContent=`⌘ ${modal.profileLink}`,1800);}
-    catch{window.prompt(modal.profileLink,clinicUrl(doctor));}
-  });
   const practicalItems=[
     [profile.languages,doctor.languages],
     [profile.insurance,doctor.insurance],
@@ -188,15 +172,9 @@ function openProfile(doctor,{updateUrl=true}={}){
   profileModal.hidden=false;document.body.classList.add('modal-open');profileModal.querySelector('.profile-close').focus();
 }
 
-function closeProfile({updateUrl=true}={}){profileModal.hidden=true;document.body.classList.remove('modal-open');if(updateUrl&&location.hash.startsWith('#clinic/'))history.replaceState(null,'',`${location.pathname}${location.search}`);}
-function syncProfileFromUrl(){
-  const slug=location.hash.startsWith('#clinic/')?decodeURIComponent(location.hash.slice(8)):null;
-  const doctor=doctors.find(item=>item.slug===slug);
-  if(doctor)openProfile(doctor,{updateUrl:false});else if(!profileModal.hidden)closeProfile({updateUrl:false});
-}
+function closeProfile(){profileModal.hidden=true;document.body.classList.remove('modal-open');}
 document.querySelectorAll('[data-close-profile]').forEach(button=>button.addEventListener('click',closeProfile));
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!profileModal.hidden)closeProfile();});
-window.addEventListener('hashchange',syncProfileFromUrl);
 
 function setField(field){
   state.field=field; state.branch=careHierarchy[field][0].id;
@@ -214,4 +192,3 @@ document.querySelectorAll('.city-option').forEach(button=>button.addEventListene
 document.querySelectorAll('.field-option').forEach(button=>button.addEventListener('click',()=>setField(button.dataset.field)));
 document.querySelectorAll('[data-lang]').forEach(button=>button.addEventListener('click',()=>setLanguage(button.dataset.lang)));
 setLanguage(state.language);
-syncProfileFromUrl();
