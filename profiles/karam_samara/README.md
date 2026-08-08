@@ -8,6 +8,6 @@
 - Insurance and payment: private care only
 - Website: none
 - Phone: confirmed
-- Photo: pending from the clinic
+- Photo: provided by the clinic
 
 The professional license number has not yet been independently verified against the Ministry of Health registry.
