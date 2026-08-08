@@ -60,6 +60,7 @@ const karamSamara = {
     en: 'Dr. Karam Samara is a dentist with 11 years of experience, providing dental care for adults and families at his clinic in Tira, with clear explanations, structured planning, and personal follow-up.'
   },
   website: null,
+  websiteName: null,
   bookingUrl: null,
   name: { he: 'ד״ר כרם סמארה', ar: 'د. كرم سمارة', en: 'Dr. Karam Samara' },
   detail: { he: 'רפואת שיניים כללית', ar: 'طب أسنان عام', en: 'General dentistry' },
