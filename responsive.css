@@ -33,3 +33,5 @@ html{font-size:16px;-webkit-text-size-adjust:100%}body,button,input,select{font-
 
 /* Phone profile stays a floating dialog so the search page remains visible */
 @media(max-width:600px){.profile-modal{padding:0;place-items:center}.profile-panel{width:calc(100vw - 36px);height:82vh;max-height:82vh;min-height:0;height:82dvh;max-height:82dvh;border:1px solid rgba(255,255,255,.78);border-radius:24px;box-shadow:0 24px 70px rgba(2,27,22,.46)}.profile-close{top:calc(9vh + 10px);top:calc(9dvh + 10px);left:28px}.modal-hero{padding:24px 17px 22px}.profile-panel #profile-modal-content{padding-bottom:0}}
+
+@media(max-width:900px){.field-options .field-option[data-field="Rehabilitation & Bodywork"]{grid-column:1/-1}}
