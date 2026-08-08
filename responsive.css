@@ -18,3 +18,9 @@ html{font-size:16px;-webkit-text-size-adjust:100%}body,button,input,select{font-
 @media(max-width:380px){.header-actions{gap:5px}.language-switcher button{min-width:28px}.care-finder{margin:7px;padding:13px}.clinic-row-main strong{font-size:.9rem}.modal-actions a{font-size:.7rem;padding-inline:9px}}
 
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.profile-panel{animation:none!important}}
+
+/* Unified profile details card */
+.profile-details-card{grid-column:1/-1;overflow:hidden;background:#fff;border:1px solid #e3e9e5;border-radius:14px}.profile-detail-row{display:grid;grid-template-columns:38px minmax(0,1fr);gap:12px;padding:17px;border-bottom:1px solid #edf1ee}.profile-detail-row:last-child{border-bottom:0}.profile-details-card h3{margin:1px 0 10px;font-family:inherit;font-size:.9rem;letter-spacing:0}.profile-details-card p{margin:0;color:var(--muted);font-size:.78rem;line-height:1.65}.service-section{grid-column:1/-1}
+
+/* Keep the close action obvious and reachable on phones */
+@media(max-width:600px){.profile-detail-row{padding:15px}.profile-close{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:12px;right:auto;float:none;margin:0;z-index:110;display:grid;place-items:center;border:1px solid #d7e6e1;background:#fff;color:#075f55;box-shadow:0 5px 18px rgba(2,34,28,.28);opacity:1;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.service-section{grid-column:1/-1}}
