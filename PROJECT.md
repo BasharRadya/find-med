@@ -53,7 +53,7 @@ For dentistry, FindMed exposes the specialist areas that patients commonly seekâ
 
 For the initial medicine launch, the public-facing categories use familiar patient language: Eye Care, Dermatology, Women's Health, Aesthetic Medicine, Neurology, and Psychiatry. Formal Ministry of Health specialist titles are stored and displayed separately inside verified doctor profiles. Aesthetic Medicine is a field-of-practice category and must not be presented as a recognized specialist title. More categories can be added as real local clinic data becomes available.
 
-Rehabilitation and bodywork are kept as separate categories. Physiotherapy profiles must belong to practitioners with a valid Ministry of Health professional certificate. Massage and bodywork profiles must use their actual training title and must not be presented as physiotherapists. Massage subcategories include medical, Swedish, deep-tissue and sports massage, Shiatsu, and reflexology.
+Physiotherapy and rehabilitation, and massage and bodywork, are separate top-level categories inside Medicine. They do not use subcategories; specific massage methods appear as services inside each profile. Physiotherapy profiles must belong to practitioners with a valid Ministry of Health professional certificate. Massage and bodywork profiles must use their actual training title and must not be presented as physiotherapists.
 
 ## Suggested product roadmap
 

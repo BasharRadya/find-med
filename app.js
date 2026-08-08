@@ -13,18 +13,9 @@ const careHierarchy = {
     { id:'obstetrics-gynecology', label:{he:'רפואת נשים (יילוד וגינקולוגיה)',ar:'طب النساء والتوليد',en:'Obstetrics and gynecology'} },
     { id:'plastic-surgery', label:{he:'כירורגיה פלסטית ואסתטית',ar:'الجراحة التجميلية والترميمية',en:'Plastic and aesthetic surgery'} },
     { id:'neurology', label:{he:'נוירולוגיה',ar:'طب الأعصاب',en:'Neurology'}, subcategories:[['adult-neurology','נוירולוגיה — מבוגרים','طب الأعصاب للبالغين','Adult neurology'],['pediatric-neurology','נוירולוגיית ילדים והתפתחות הילד','أعصاب الأطفال وتطور الطفل','Pediatric neurology and child development']] },
-    { id:'psychiatry', label:{he:'פסיכיאטריה',ar:'الطب النفسي',en:'Psychiatry'}, subcategories:[['adult-psychiatry','פסיכיאטריה — מבוגרים','الطب النفسي للبالغين','Adult psychiatry'],['child-psychiatry','פסיכיאטריה של הילד והמתבגר','الطب النفسي للأطفال والمراهقين','Child and adolescent psychiatry']] }
-  ],
-  'Rehabilitation & Bodywork': [
+    { id:'psychiatry', label:{he:'פסיכיאטריה',ar:'الطب النفسي',en:'Psychiatry'}, subcategories:[['adult-psychiatry','פסיכיאטריה — מבוגרים','الطب النفسي للبالغين','Adult psychiatry'],['child-psychiatry','פסיכיאטריה של הילד והמתבגר','الطب النفسي للأطفال والمراهقين','Child and adolescent psychiatry']] },
     { id:'physiotherapy-rehabilitation', label:{he:'פיזיותרפיה ושיקום',ar:'العلاج الطبيعي والتأهيل',en:'Physiotherapy and rehabilitation'} },
-    { id:'massage-bodywork', label:{he:'עיסוי וטיפולי מגע',ar:'التدليك والعلاج باللمس',en:'Massage and bodywork'}, subcategories:[
-      ['medical-massage','עיסוי רפואי','التدليك الطبي','Medical massage'],
-      ['swedish-massage','עיסוי שוודי','التدليك السويدي','Swedish massage'],
-      ['deep-tissue-massage','עיסוי רקמות עמוק','تدليك الأنسجة العميقة','Deep-tissue massage'],
-      ['sports-massage','עיסוי ספורטאים','التدليك الرياضي','Sports massage'],
-      ['shiatsu','שיאצו','شياتسو','Shiatsu'],
-      ['reflexology','רפלקסולוגיה','ريفلكسولوجيا','Reflexology']
-    ] }
+    { id:'massage-bodywork', label:{he:'עיסוי וטיפולי מגע',ar:'التدليك والعلاج باللمس',en:'Massage and bodywork'} }
   ]
 };
 
@@ -37,9 +28,6 @@ const ui = {
 ui.he.fieldGeneral='רפואה';
 ui.ar.fieldGeneral='الطب';
 ui.en.fieldGeneral='Medicine';
-ui.he.fieldRehab='שיקום וטיפולי מגע';
-ui.ar.fieldRehab='التأهيل والعلاج باللمس';
-ui.en.fieldRehab='Rehabilitation & bodywork';
 ui.he.finderTitle='מצאו רופא או מרפאה';
 ui.ar.finderTitle='ابحث عن طبيب أو عيادة';
 ui.en.finderTitle='Find a doctor or clinic';
