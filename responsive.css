@@ -25,6 +25,9 @@ html{font-size:16px;-webkit-text-size-adjust:100%}body,button,input,select{font-
 /* Keep the close action obvious and reachable on phones */
 @media(max-width:600px){.profile-detail-row{padding:15px}.profile-close{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:12px;right:auto;float:none;margin:0;z-index:110;display:grid;place-items:center;border:1px solid #d7e6e1;background:#fff;color:#075f55;box-shadow:0 5px 18px rgba(2,34,28,.28);opacity:1;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.service-section{grid-column:1/-1}}
 
+.profile-close{border-color:#d83f4d;background:#d83f4d;color:#fff;box-shadow:0 5px 18px rgba(133,20,34,.32)}.profile-close:hover,.profile-close:focus-visible{border-color:#b92737;background:#b92737;color:#fff;outline:3px solid rgba(216,63,77,.24);outline-offset:2px}
+.modal-actions .copy-profile-link{min-height:42px;display:inline-flex;align-items:center;padding:10px 14px;border:1px solid rgba(255,255,255,.32);border-radius:10px;background:transparent;color:#fff;font-size:.78rem;font-weight:800;cursor:pointer}
+
 /* Useful context inside each clickable clinic row */
 .clinic-row-main{gap:4px}.clinic-row-main .clinic-row-field{color:var(--green);font-size:.8rem;font-weight:700}.clinic-row-main .clinic-row-focus{max-width:680px;color:var(--muted);font-size:.76rem;line-height:1.45}.clinic-row-focus b{color:#4e6862;font-weight:700}
-@media(max-width:600px){.clinic-row{padding-block:16px}.clinic-row-main .clinic-row-field{font-size:.76rem}.clinic-row-main .clinic-row-focus{font-size:.72rem;line-height:1.5}.row-arrow{align-self:center}}
+@media(max-width:600px){.clinic-row{padding-block:16px}.clinic-row-main .clinic-row-field{font-size:.76rem}.clinic-row-main .clinic-row-focus{font-size:.72rem;line-height:1.5}.row-arrow{align-self:center}.modal-actions .copy-profile-link{min-height:44px;flex:1;justify-content:center}}
