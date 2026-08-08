@@ -24,6 +24,11 @@ const doctors = [
     city:'tira',
     field:'Dentistry',
     branch:'general-dentistry',
+    cardSpecialties:[
+      {he:'טיפולים משקמים',ar:'علاجات ترميم الأسنان',en:'Restorative treatments'},
+      {he:'טיפולים אסתטיים',ar:'علاجات الأسنان التجميلية',en:'Aesthetic treatments'},
+      {he:'רפואת שיניים מונעת',ar:'طب الأسنان الوقائي',en:'Preventive dentistry'}
+    ],
     services:[
       {he:'בדיקות וייעוץ',ar:'فحوصات واستشارة',en:'Exams and consultation'},
       {he:'סתימות ושחזורים',ar:'حشوات وترميم الأسنان',en:'Fillings and restorations'},
@@ -89,6 +94,9 @@ ui.en.finderTitle='Find a doctor or clinic';
 ui.he.subcategoryLabel='בחרו תת־קטגוריה';
 ui.ar.subcategoryLabel='اختر الفئة الفرعية';
 ui.en.subcategoryLabel='Choose a subcategory';
+ui.he.focusLabel='תחומי טיפול';
+ui.ar.focusLabel='مجالات العلاج';
+ui.en.focusLabel='Treatment areas';
 const profileCopy={
   he:{basic:'פרופיל בסיסי ממידע ציבורי',pending:'פרטי הפרופיל יושלמו לאחר אימות מול המרפאה.',overview:'אודות הרופא',education:'לימודים והכשרה',credentials:'התמחות ותעודות',services:'שירותי המרפאה',practical:'מידע שימושי',languages:'שפות',insurance:'הסדרים וביטוחים',hours:'שעות פעילות',accessibility:'נגישות',missing:'המידע טרם נוסף',website:'אתר המרפאה',booking:'קביעת תור'},
   ar:{basic:'ملف أساسي من معلومات عامة',pending:'سيتم استكمال الملف بعد التحقق مع العيادة.',overview:'نبذة عن الطبيب',education:'الدراسة والتدريب',credentials:'التخصص والشهادات',services:'خدمات العيادة',practical:'معلومات مفيدة',languages:'اللغات',insurance:'التأمين والترتيبات',hours:'ساعات العمل',accessibility:'إمكانية الوصول',missing:'لم تتم إضافة المعلومات بعد',website:'موقع العيادة',booking:'حجز موعد'},
@@ -140,7 +148,8 @@ function renderClinics(){
   matches.forEach(doctor=>{
     const entry=document.createElement('article'); entry.className='clinic-entry';
     const badge=doctor.sampleProfile?copy.demo:doctor.real?copy.public:copy.demo;
-    entry.innerHTML=`<button class="clinic-row"><span class="clinic-row-avatar">${doctor.initials}</span><span class="clinic-row-main"><small>${badge}</small><strong>${label(doctor.name)}</strong></span><span class="row-arrow">←</span></button>`;
+    const specialties=doctor.cardSpecialties?.map(item=>label(item)).join(' · ');
+    entry.innerHTML=`<button class="clinic-row"><span class="clinic-row-avatar">${doctor.initials}</span><span class="clinic-row-main"><small>${badge}</small><strong>${label(doctor.name)}</strong><span class="clinic-row-field">${label(doctor.detail)}</span>${specialties?`<span class="clinic-row-focus"><b>${copy.focusLabel}:</b> ${specialties}</span>`:''}</span><span class="row-arrow">←</span></button>`;
     entry.querySelector('.clinic-row').addEventListener('click',()=>openProfile(doctor));clinicList.appendChild(entry);
   });
 }
