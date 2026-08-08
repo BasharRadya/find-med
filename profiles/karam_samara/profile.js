@@ -65,6 +65,7 @@ const karamSamara = {
   name: { he: 'ד״ר כרם סמארה', ar: 'د. كرم سمارة', en: 'Dr. Karam Samara' },
   detail: { he: 'רפואת שיניים כללית', ar: 'طب أسنان عام', en: 'General dentistry' },
   address: { he: 'אל זהרא, טירה', ar: 'الزهراء، الطيرة', en: 'Al Zahra, Tira' },
+  email: null,
   phone: '053-222-1748',
   maps: 'https://www.google.com/maps?gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDM5NDRqMGo3qAIAsAIA&um=1&ie=UTF-8&fb=1&gl=il&sa=X&geocode=KbWcwMkdPB0VMVOo5roTmu2a&daddr=%D7%90%D7%9C+%D7%96%D7%90%D7%94%D7%A8%D7%90,+Tira'
 };
