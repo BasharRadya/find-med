@@ -10,8 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="languages.css" />
-  <link rel="stylesheet" href="directory.css" />
-  <link rel="stylesheet" href="responsive.css" />
+  <link rel="stylesheet" href="directory.css?v=20260809-2" />
+  <link rel="stylesheet" href="responsive.css?v=20260809-2" />
 </head>
 <body>
   <header class="site-header">
@@ -79,6 +79,12 @@
       <div id="profile-modal-content"></div>
     </section>
   </div>
-  <script type="module" src="app.js"></script>
+  <dialog class="profile-photo-viewer" id="profile-photo-viewer" aria-label="Expanded profile photo">
+    <div class="profile-photo-frame">
+      <button class="profile-photo-close" data-close-profile-photo aria-label="Close expanded photo">×</button>
+      <img id="profile-photo-expanded" src="" alt="" />
+    </div>
+  </dialog>
+  <script type="module" src="app.js?v=20260809-2"></script>
 </body>
 </html>

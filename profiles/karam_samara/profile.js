@@ -8,6 +8,7 @@ const karamSamara = {
   city: 'tira',
   field: 'Dentistry',
   branch: 'general-dentistry',
+  subcategories: [],
   photo: 'profiles/karam_samara/portrait.jpeg',
   cardSpecialties: [
     { he: 'טיפולים משקמים', ar: 'علاجات ترميم الأسنان', en: 'Restorative treatments' },

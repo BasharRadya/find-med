@@ -8,6 +8,7 @@ const moamenQashoua = {
   city: 'tira',
   field: 'Dentistry',
   branch: 'general-dentistry',
+  subcategories: [],
   photo: 'profiles/moamen_qashoua/279207446_319005843698322_5817734425705607632_n.jpg',
   cardSpecialties: [
     { he: 'טיפולי שיניים כלליים', ar: 'علاجات الأسنان العامة', en: 'General dental care' },

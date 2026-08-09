@@ -8,6 +8,7 @@ const abosheVet = {
   city: 'tira',
   field: 'Veterinary Medicine',
   branch: 'general-veterinary-care',
+  subcategories: [],
   photo: 'profiles/aboshe_vet/307132069_520233216774206_6736094326583815293_n.jpg',
   cardSpecialties: [
     { he: 'טיפול בחיות מחמד', ar: 'رعاية الحيوانات الأليفة', en: 'Pet care' },

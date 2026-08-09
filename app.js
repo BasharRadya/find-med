@@ -65,6 +65,9 @@ const profileCopy={
   ar:{basic:'ملف أساسي من معلومات عامة',pending:'سيتم استكمال الملف بعد التحقق مع العيادة.',overview:'نبذة عن الطبيب',education:'الدراسة والتدريب',credentials:'التخصص والشهادات',services:'خدمات العيادة',practical:'معلومات مفيدة',languages:'اللغات',insurance:'التأمين والترتيبات',hours:'ساعات العمل',accessibility:'إمكانية الوصول',missing:'لم تتم إضافة المعلومات بعد',website:'صفحة العيادة',email:'البريد الإلكتروني',booking:'حجز موعد'},
   en:{basic:'Basic profile from public information',pending:'Profile details will be completed after verification with the clinic.',overview:'About the doctor',education:'Education and training',credentials:'Specialty and credentials',services:'Clinic services',practical:'Practical information',languages:'Languages',insurance:'Insurance',hours:'Opening hours',accessibility:'Accessibility',missing:'Information not added yet',website:'Clinic page',email:'Email',booking:'Book appointment'}
 };
+profileCopy.he.expandPhoto='הגדלת התמונה';
+profileCopy.ar.expandPhoto='تكبير الصورة';
+profileCopy.en.expandPhoto='Enlarge photo';
 const modalCopy={
   he:{close:'סגירה',verified:'מידע מאומת',public:'מידע ציבורי',sample:'פרופיל לדוגמה',hoursNote:'שעות הפעילות טרם אומתו ישירות מול המרפאה',contact:'יצירת קשר',location:'מיקום המרפאה',missingTitle:'תוכן להמחשה בלבד',missingBody:'האודות, הלימודים, השירותים, השפות, ההסדרים והנגישות הומצאו לצורך עיצוב ואינם מידע מאומת על ד״ר כרם סמארה.',sampleTitle:'תוכן להמחשה בלבד',sampleBody:'האודות, הלימודים, השירותים, השפות, ההסדרים והנגישות הומצאו לצורך עיצוב ואינם מידע מאומת על ד״ר כרם סמארה.',noWebsite:'לא פורסם אתר רשמי'},
   ar:{close:'إغلاق',verified:'معلومات موثقة',public:'معلومات عامة',sample:'ملف تجريبي',hoursNote:'لم يتم التحقق من ساعات العمل مباشرةً مع العيادة بعد',contact:'تواصل',location:'موقع العيادة',missingTitle:'محتوى توضيحي فقط',missingBody:'النبذة والدراسة والخدمات واللغات والتأمين وإمكانية الوصول مختلقة لأغراض التصميم وليست معلومات موثقة عن د. كرم سمارة.',sampleTitle:'محتوى توضيحي فقط',sampleBody:'النبذة والدراسة والخدمات واللغات والتأمين وإمكانية الوصول مختلقة لأغراض التصميم وليست معلومات موثقة عن د. كرم سمارة.',noWebsite:'لم يُنشر موقع رسمي'},
@@ -79,6 +82,9 @@ const subcategoryBox = document.querySelector('#subcategory-options');
 const clinicList = document.querySelector('#clinic-list');
 const profileModal = document.querySelector('#profile-modal');
 const profileModalContent = document.querySelector('#profile-modal-content');
+const profilePhotoViewer = document.querySelector('#profile-photo-viewer');
+const profilePhotoExpanded = document.querySelector('#profile-photo-expanded');
+let profilePhotoTrigger = null;
 
 function label(value){ return value?.[state.language] ?? value ?? ''; }
 function selectedBranch(){ return careHierarchy[state.field].find(item => item.id === state.branch) || careHierarchy[state.field][0]; }
@@ -107,7 +113,10 @@ function renderSubcategories(){
 function renderClinics(){
   const copy=ui[state.language];
   const requiresSubcategory=(selectedBranch().subcategories||[]).length>0;
-  const matches=doctors.filter(doctor=>doctor.city===state.city&&doctor.field===state.field&&doctor.branch===state.branch&&(!requiresSubcategory||doctor.subcategories?.includes(state.subcategory)));
+  const matches=doctors.filter(doctor=>{
+    const doctorBranches=Array.isArray(doctor.branch)?doctor.branch:[doctor.branch];
+    return doctor.city===state.city&&doctor.field===state.field&&doctorBranches.includes(state.branch)&&(!requiresSubcategory||doctor.subcategories?.includes(state.subcategory));
+  });
   document.querySelector('#result-count').textContent=`${matches.length} ${matches.length===1?copy.result:copy.results}`;
   clinicList.innerHTML='';
   if(!matches.length){clinicList.innerHTML=`<div class="empty-results"><span>⌕</span><strong>${copy.empty}</strong></div>`;return;}
@@ -121,6 +130,28 @@ function renderClinics(){
   });
 }
 
+function openProfilePhoto(doctor,trigger){
+  if(!doctor.photo)return;
+  const profile=profileCopy[state.language];
+  const modal=modalCopy[state.language];
+  profilePhotoTrigger=trigger;
+  profilePhotoExpanded.src=doctor.photo;
+  profilePhotoExpanded.alt=label(doctor.name);
+  profilePhotoViewer.setAttribute('aria-label',`${profile.expandPhoto}: ${label(doctor.name)}`);
+  profilePhotoViewer.querySelectorAll('[data-close-profile-photo]').forEach(button=>button.setAttribute('aria-label',modal.close));
+  if(!profilePhotoViewer.open)profilePhotoViewer.showModal();
+  profilePhotoViewer.querySelector('.profile-photo-close').focus();
+}
+
+function closeProfilePhoto(restoreFocus=true){
+  if(!profilePhotoViewer.open)return;
+  profilePhotoViewer.close();
+  profilePhotoExpanded.src='';
+  profilePhotoExpanded.alt='';
+  if(restoreFocus&&profilePhotoTrigger?.isConnected)profilePhotoTrigger.focus();
+  profilePhotoTrigger=null;
+}
+
 function openProfile(doctor){
   const copy=ui[state.language];
   const profile=profileCopy[state.language];
@@ -129,20 +160,24 @@ function openProfile(doctor){
   const weekDays={he:['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'],ar:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']};
   const scheduleItems=doctor.openingHours?.length?doctor.openingHours:weekDays[state.language].map(day=>({day,hours:profile.missing}));
   const schedule=scheduleItems.map(item=>`<div class="hours-row"><span>${label(item.day)}</span><strong class="${label(item.hours)==='סגור'||label(item.hours)==='مغلق'||label(item.hours)==='Closed'?'closed':''}">${label(item.hours)}</strong></div>`).join('');
-  const modalAvatar=doctor.photo?`<img src="${doctor.photo}" alt="${label(doctor.name)}">`:doctor.initials;
-  profileModalContent.innerHTML=`<header class="modal-hero"><div class="modal-avatar">${modalAvatar}</div><div class="modal-identity"><span>${doctor.clinicVerified?modal.clinicVerified:doctor.real?modal.public:modal.verified}</span><h2 id="profile-modal-title">${label(doctor.name)}</h2><p>${label(doctor.detail)}</p><small>⌖ ${label(doctor.address)}</small></div><div class="modal-actions">${doctor.phone?`<a class="action-primary" href="tel:${doctor.phone.replaceAll('-','')}">☎ ${copy.call}</a>`:''}${doctor.maps?`<a href="${doctor.maps}" target="_blank" rel="noopener">⌖ ${copy.navigate}</a>`:''}${doctor.website?`<a href="${doctor.website}" target="_blank" rel="noopener">↗ ${profile.website}</a>`:''}</div></header><div class="modal-body"><main class="profile-main-column"><section class="profile-details-card"><div class="profile-detail-row"><div class="section-icon">◌</div><div><h3>${profile.overview}</h3>${doctor.overview?`<p>${label(doctor.overview)}</p>`:`<p class="section-empty">${profile.missing}</p>`}</div></div><div class="profile-detail-row"><div class="section-icon">◇</div><div><h3>${profile.education}</h3>${chips(doctor.education)}</div></div><div class="profile-detail-row"><div class="section-icon">✓</div><div><h3>${profile.credentials}</h3>${chips(doctor.credentials)}</div></div></section><section class="modern-section service-section"><div class="section-icon">+</div><div><h3>${profile.services}</h3>${chips(doctor.services)}</div></section></main><aside class="profile-side-column"><section class="side-card hours-card"><div class="side-card-title"><div><span>◷</span><h3>${profile.hours}</h3></div>${doctor.hoursVerified?'':`<small>${modal.public}</small>`}</div><div class="weekly-hours">${schedule}</div>${doctor.hoursVerified?'':`<p class="hours-note">${modal.hoursNote}</p>`}</section><section class="side-card"><h3>${modal.contact}</h3>${doctor.phone?`<a class="contact-line" href="tel:${doctor.phone.replaceAll('-','')}"><span>☎</span><div><small>${copy.call}</small><strong>${doctor.phone}</strong></div></a>`:''}${doctor.email?`<a class="contact-line" href="mailto:${doctor.email}"><span>@</span><div><small>${profile.email}</small><strong dir="ltr">${doctor.email}</strong></div></a>`:''}<a class="contact-line" href="${doctor.maps}" target="_blank" rel="noopener"><span>⌖</span><div><small>${modal.location}</small><strong>${label(doctor.address)}</strong></div></a>${doctor.website?`<a class="contact-line" href="${doctor.website}" target="_blank" rel="noopener"><span>↗</span><div><small>${profile.website}</small><strong>${doctor.websiteName?label(doctor.websiteName):profile.website}</strong></div></a>`:`<div class="website-empty">${modal.noWebsite}</div>`}</section></aside></div>`;
+  const modalAvatar=doctor.photo?`<button class="modal-avatar profile-photo-button" type="button" data-profile-photo aria-label="${profile.expandPhoto}"><img src="${doctor.photo}" alt="${label(doctor.name)}"><span class="profile-photo-zoom" aria-hidden="true">⌕</span></button>`:`<div class="modal-avatar">${doctor.initials}</div>`;
+  profileModalContent.innerHTML=`<header class="modal-hero">${modalAvatar}<div class="modal-identity"><span>${doctor.clinicVerified?modal.clinicVerified:doctor.real?modal.public:modal.verified}</span><h2 id="profile-modal-title">${label(doctor.name)}</h2><p>${label(doctor.detail)}</p><small>⌖ ${label(doctor.address)}</small></div><div class="modal-actions">${doctor.phone?`<a class="action-primary" href="tel:${doctor.phone.replaceAll('-','')}">☎ ${copy.call}</a>`:''}${doctor.maps?`<a href="${doctor.maps}" target="_blank" rel="noopener">⌖ ${copy.navigate}</a>`:''}${doctor.website?`<a href="${doctor.website}" target="_blank" rel="noopener">↗ ${profile.website}</a>`:''}</div></header><div class="modal-body"><main class="profile-main-column"><section class="profile-details-card"><div class="profile-detail-row"><div class="section-icon">◌</div><div><h3>${profile.overview}</h3>${doctor.overview?`<p>${label(doctor.overview)}</p>`:`<p class="section-empty">${profile.missing}</p>`}</div></div><div class="profile-detail-row"><div class="section-icon">◇</div><div><h3>${profile.education}</h3>${chips(doctor.education)}</div></div><div class="profile-detail-row"><div class="section-icon">✓</div><div><h3>${profile.credentials}</h3>${chips(doctor.credentials)}</div></div></section><section class="modern-section service-section"><div class="section-icon">+</div><div><h3>${profile.services}</h3>${chips(doctor.services)}</div></section></main><aside class="profile-side-column"><section class="side-card hours-card"><div class="side-card-title"><div><span>◷</span><h3>${profile.hours}</h3></div>${doctor.hoursVerified?'':`<small>${modal.public}</small>`}</div><div class="weekly-hours">${schedule}</div>${doctor.hoursVerified?'':`<p class="hours-note">${modal.hoursNote}</p>`}</section><section class="side-card"><h3>${modal.contact}</h3>${doctor.phone?`<a class="contact-line" href="tel:${doctor.phone.replaceAll('-','')}"><span>☎</span><div><small>${copy.call}</small><strong>${doctor.phone}</strong></div></a>`:''}${doctor.email?`<a class="contact-line" href="mailto:${doctor.email}"><span>@</span><div><small>${profile.email}</small><strong dir="ltr">${doctor.email}</strong></div></a>`:''}<a class="contact-line" href="${doctor.maps}" target="_blank" rel="noopener"><span>⌖</span><div><small>${modal.location}</small><strong>${label(doctor.address)}</strong></div></a>${doctor.website?`<a class="contact-line" href="${doctor.website}" target="_blank" rel="noopener"><span>↗</span><div><small>${profile.website}</small><strong>${doctor.websiteName?label(doctor.websiteName):profile.website}</strong></div></a>`:`<div class="website-empty">${modal.noWebsite}</div>`}</section></aside></div>`;
   const practicalItems=[
     [profile.languages,doctor.languages],
     [profile.insurance,doctor.insurance],
     [profile.accessibility,doctor.accessibility]
   ];
   profileModalContent.querySelector('.profile-side-column').insertAdjacentHTML('beforeend',`<section class="side-card practical-card"><h3>${profile.practical}</h3>${practicalItems.map(([title,items])=>`<div class="practical-item"><b>${title}</b>${chips(items)}</div>`).join('')}</section>`);
+  profileModalContent.querySelector('[data-profile-photo]')?.addEventListener('click',event=>openProfilePhoto(doctor,event.currentTarget));
   profileModal.hidden=false;document.body.classList.add('modal-open');profileModal.querySelector('.profile-close').focus();
 }
 
-function closeProfile(){profileModal.hidden=true;document.body.classList.remove('modal-open');}
+function closeProfile(){closeProfilePhoto(false);profileModal.hidden=true;document.body.classList.remove('modal-open');}
 document.querySelectorAll('[data-close-profile]').forEach(button=>button.addEventListener('click',closeProfile));
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!profileModal.hidden)closeProfile();});
+document.querySelectorAll('[data-close-profile-photo]').forEach(button=>button.addEventListener('click',()=>closeProfilePhoto()));
+profilePhotoViewer.addEventListener('click',event=>{if(event.target===profilePhotoViewer)closeProfilePhoto();});
+profilePhotoViewer.addEventListener('cancel',event=>{event.preventDefault();closeProfilePhoto();});
+document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(profilePhotoViewer.open)closeProfilePhoto();else if(!profileModal.hidden)closeProfile();});
 
 function setField(field){
   state.field=field; state.branch=careHierarchy[field][0].id;
